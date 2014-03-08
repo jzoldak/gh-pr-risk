@@ -1,19 +1,20 @@
 """
-Test helper methods
+Helper methods for tests
 """
 import os.path
 from json import loads
 import re
 
-def load_fixture(filename):
+
+def load_fixture(rel_path, filename):
     """
-    Return the contents of the file at 'filename'
-    which is stored in the 'fixtures' directory.
+    Return the contents of the file at the relative path and filename
+    under the 'fixtures' directory.
 
     If that file does not exist then return an empty dict.
     """
     fixture_filepath = os.path.join(os.path.dirname(__file__),
-        'fixtures', filename)
+        'fixtures', rel_path, filename)
 
     if os.path.isfile(fixture_filepath):
 
@@ -22,36 +23,41 @@ def load_fixture(filename):
 
         return loads(contents)
 
-    # from nose.tools import set_trace; set_trace()
-    print fixture_filepath
     return {}
 
 
 def fixture_stubs(*args, **kwargs):
     """
-    Stub for returning the value from an API call
-    to GitHub.
+    Stub for returning the value from an API call to GitHub.
 
     Return the results from a fixture file instead.
+
+    Files are stored in subdirectories named by the
+    resource from the GitHub API call, e.g. repos or search
     """
     uri = args[0]
-    # from nose.tools import set_trace; set_trace()
     print uri
     return_value = []
 
     # Compute the name of the fixture file to load
     # from the API call to GitHub
+    uri_pattern = '^([^\/]+)\/(.+)$'
+    match = re.search(uri_pattern, uri).groups()
+    resource = match[0]
 
-    # First strip off the repos/foo/bar piece
-    # because that is not in the filename
-    # E.g. for repos/foo/bar/issues/123/comments
-    # we just want 123/comments
-    uri_pattern = '^repos\/[^\/]+\/[^\/]+\/(.+)$'
-    resource = re.search(uri_pattern, uri).groups()[0]
+    if resource == 'repos':
+        # For calls to the repos object, use the rest of the
+        # API call for the filename, replacing occurances of
+        # '/' with '_' and appending the suffix .json
+        fix_file = '{}.json'.format(match[1].replace('/','_'))
+        return_value = load_fixture('repos', fix_file)
 
-    # Replace the / with an _ in the filename and
-    # tack on a .json
-    fix_file = '{}.json'.format(resource.replace('/','_'))
-    return_value = load_fixture(fix_file)
+    elif resource == 'search':
+        # With the tests we have right now we only need one search
+        # results file so let's not get fancy. We'll just store it
+        # in search/results.json
+        return_value = load_fixture('search', 'results.json')
+
 
     return return_value
+

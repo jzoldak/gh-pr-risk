@@ -1,19 +1,3 @@
-class GitHubError(Exception):
-    """Raised if a request fails to the GitHub API."""
-
-    def __str__(self):
-        try:
-            message = self.response.json()['message']
-        except Exception:
-            message = None
-        return "%s: %s" % (self.response.status_code, message)
-
-    @property
-    def response(self):
-        """The :class:`~requests.Response` object for the request."""
-        return self.args[0]
-
-
 """
 Objects returned using the GitHub API
 """
