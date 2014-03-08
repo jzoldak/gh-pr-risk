@@ -4,7 +4,7 @@ class MergeRisk(object):
     """
     def __init__(self, pr, repo_collab):
 
-        self.info = pr.pr_info
+        self.pr_itself = pr.pr_itself
         self.comments = pr.comments
         self.statuses = pr.statuses
         self.repo_collab = repo_collab
@@ -13,31 +13,32 @@ class MergeRisk(object):
 
 
     def __str__(self):
-        return self.info
+        return self.pr_itself
 
 
     def set_details(self):
         """
         Details for the Pull Request
         """
-        info = self.info
+        pr_itself = self.pr_itself
 
         details = {}
-        details['login'] = info['user']['login']
-        details['title'] = info['title']
+        user = pr_itself.get('user', None)
+        details['login'] = user['login'] if user else None
+        details['title'] = pr_itself.get('title', None)
 
-        if details['login'] in [collab['login'] for collab in self.repo_collab]:
+        if details['login'] in [collab.get('login', None) for collab in self.repo_collab]:
             details['collab'] = 'Yes'
         else:
             details['collab'] = 'No'
 
-        details['comments'] = info['comments']
-        details['review_comments'] = info['review_comments']
-        details['commits'] = info['commits']
-        details['additions'] = info['additions']
-        details['deletions'] = info['deletions']
-        details['changed_files'] = info['changed_files']
-        details['mergeable'] = info['mergeable']
+        details['comments'] = pr_itself.get('comments', None)
+        details['review_comments'] = pr_itself.get('review_comments', None)
+        details['commits'] = pr_itself.get('commits', None)
+        details['additions'] = pr_itself.get('additions', None)
+        details['deletions'] = pr_itself.get('deletions', None)
+        details['changed_files'] = pr_itself.get('changed_files', None)
+        details['mergeable'] = pr_itself.get('mergeable', None)
         details['thumbsups'] = self.get_num_thumbs()
         details['last_state'] = self.get_last_state()
 
@@ -54,11 +55,16 @@ class MergeRisk(object):
                 num_thumbs += 1
         return num_thumbs
 
+
     def get_last_state(self):
         """
         The status of the last commit from the PR
         """
-        return self.statuses[0]['state']
+        if len(self.statuses) > 0:
+            return self.statuses[0]['state']
+        else:
+            return None
+
 
     def set_display(self):
         """

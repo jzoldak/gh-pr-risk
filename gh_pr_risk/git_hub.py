@@ -1,5 +1,21 @@
+class GitHubError(Exception):
+    """Raised if a request fails to the GitHub API."""
+
+    def __str__(self):
+        try:
+            message = self.response.json()['message']
+        except Exception:
+            message = None
+        return "%s: %s" % (self.response.status_code, message)
+
+    @property
+    def response(self):
+        """The :class:`~requests.Response` object for the request."""
+        return self.args[0]
+
+
 """
-Classes for GitHub objects
+Objects returned using the GitHub API
 """
 class Repo(object):
     """
@@ -61,7 +77,7 @@ class PullRequest(object):
         self.github = github
         self.repo = str(repo)
         self.number = number
-        self.pr_info = self.get_pr_info()
+        self.pr_itself = self.get_pr_itself()
         self.comments = self.get_comments()
         self.statuses = self.get_statuses()
 
@@ -69,7 +85,7 @@ class PullRequest(object):
     def __str__(self):
         return(self.number)
 
-    def get_pr_info(self):
+    def get_pr_itself(self):
         """
         Retrieve the Pull Request from GitHub
         """
@@ -94,7 +110,17 @@ class PullRequest(object):
         A list of this Pull Request's commit statuses,
         which are the statuses of its head branch
         """
+        try:
+            sha = self.pr_itself['head']['sha']
+        except KeyError:
+            """
+            The required info was not in the return from
+            the call for the PR itself.
+            Just return an empty list instead.
+            """
+            return []
+
         uri = 'repos/{}/statuses/{}'.format(
-            self.repo, self.pr_info['head']['sha'])
+            self.repo, sha)
         statuses = self.github.get(uri)
         return statuses
