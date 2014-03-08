@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+  <table>
+  <tr>
+    {% for key in prs[0] %}
+      <th> {{ key }} </th>
+    {% endfor %}
+  </tr>
+  {% for pr in prs %}
+    <tr>
+    {% for key, value in pr.iteritems() %}
+      <td> {{ value }} </td>
+    {% endfor %}
+    </tr>
+  {% endfor %}
+  </table>
+{% endblock %}
