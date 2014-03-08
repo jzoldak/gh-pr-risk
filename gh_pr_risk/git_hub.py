@@ -66,9 +66,6 @@ class PullRequest(object):
         self.statuses = self.get_statuses()
 
 
-    def __str__(self):
-        return(self.number)
-
     def get_pr_itself(self):
         """
         Retrieve the Pull Request from GitHub

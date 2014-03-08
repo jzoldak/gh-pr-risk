@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "user": {
+      "login": "octodog"
+    },
+    "body": "@octocat :+1: When trivial comments are addressed."
+  },
+  {
+    "id": 2,
+    "user": {
+      "login": "octoworm"
+    },
+    "body": "Hello"
+  },
+  {
+    "id": 3,
+    "user": {
+      "login": "octopig"
+    },
+    "body": "@octocat Another :+1: from me."
+  }
+]

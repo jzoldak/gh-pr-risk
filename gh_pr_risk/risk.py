@@ -12,10 +12,6 @@ class MergeRisk(object):
         self.display = self.set_display()
 
 
-    def __str__(self):
-        return self.pr_itself
-
-
     def set_details(self):
         """
         Details for the Pull Request
@@ -48,6 +44,10 @@ class MergeRisk(object):
     def get_num_thumbs(self):
         """
         The number of comments with thumbsup in the pull Request
+
+        TODO: only one thumbsup should count per person, and you it should
+        not count if you thumbsup your own pull request. Also maybe we should only
+        count thumbs from "official reviewers?" e.g. collaborators?
         """
         num_thumbs = 0
         for comment in self.comments:
