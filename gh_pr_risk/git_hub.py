@@ -42,7 +42,7 @@ class IssuesList(object):
         Retrieve a list of the Issues from GitHub that match
         the query parameters.
 
-        TODO: Note that a maximum of 100 issues are returned at
+        TODO: Note that a maximum of 100 items are returned at
         a time. If you need more than that number, we will
         need to deal with pagination.
         """

@@ -1,0 +1,14 @@
+[
+  {
+    "state": "pending",
+    "description": "Running tests"
+  },
+  {
+    "state": "failure",
+    "description": "\"Tests failed\""
+  },
+  {
+    "state": "pending",
+    "description": "Running tests"
+  }
+]

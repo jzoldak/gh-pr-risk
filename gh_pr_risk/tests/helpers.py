@@ -58,6 +58,5 @@ def fixture_stubs(*args, **kwargs):
         # in search/results.json
         return_value = load_fixture('search', 'results.json')
 
-
     return return_value
 
