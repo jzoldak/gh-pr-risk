@@ -28,7 +28,7 @@ GITHUB_CALLBACK_URL = os.environ.get('GITHUB_CALLBACK_URL',
 
 ORG = 'edx'
 # REPO = 'edx-platform'
-REPO_NAME = 'bok-choy'
+REPO_NAME = 'xblock'
 
 # create the application
 app = Flask(__name__)
@@ -120,8 +120,7 @@ def authorized(access_token):
 def login():
     if session.get('user_id', None) is None:
         return github.authorize()
-    else:
-        return 'Already logged in'
+
 
 @app.route('/logout')
 def logout():
