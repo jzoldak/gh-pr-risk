@@ -1,0 +1,7 @@
+diff --git a/README.rst b/README.rst
+index e69de29..5ab2f8a 100644
+--- a/README.rst
++++ b/README.rst
+@@ -0,0 +1 @@
++Hello
+\ No newline at end of file

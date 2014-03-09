@@ -1,2 +1,3 @@
 [run]
 source = gh_pr_risk
+omit = gh_pr_risk/gh_pr_risk.py, gh_pr_risk/diff_reporter.py

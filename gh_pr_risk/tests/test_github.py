@@ -1,6 +1,6 @@
 import unittest
 
-from mock import MagicMock, patch
+from mock import Mock, MagicMock, patch
 from flask.ext.github import GitHub
 
 from gh_pr_risk.git_hub import Repo, PullRequest, IssuesList
@@ -8,6 +8,18 @@ from gh_pr_risk.risk import MergeRisk
 
 from helpers import fixture_stubs
 from nose.tools import assert_equal, assert_in
+
+
+def diff_get_response(*args):
+    """
+    Helper for patching calls that use diff fixtures.
+    The requests.get method needs to be patched and to return
+    a response from the fixture file instead.
+    """
+    uri = args[0]
+    response = Mock()
+    response.content = fixture_stubs(uri)
+    return response
 
 
 @patch('flask.ext.github.GitHub.get', side_effect=fixture_stubs)
@@ -38,6 +50,13 @@ class GitHubTest(unittest.TestCase):
         repo = Repo(gh, 'foo', 'bar')
         pr = PullRequest(gh, repo, '123')
         assert_equal(len(pr.comments), 3)
+
+    @patch('requests.get', side_effect=diff_get_response)
+    def test_pr_diff(self, mock_get, mock_response):
+        gh = GitHub(MagicMock())
+        repo = Repo(gh, 'foo', 'bar')
+        pr = PullRequest(gh, repo, '129')
+        assert_in('diff --git a/README.rst b/README.rst', pr.diff)
 
 
 @patch('flask.ext.github.GitHub.get', side_effect=fixture_stubs)
@@ -92,4 +111,18 @@ class MergeRiskTest(unittest.TestCase):
         mr = MergeRisk(pr, repo.collaborators)
         assert_equal(mr.details['last_state'], None)
 
+    @patch('requests.get', side_effect=diff_get_response)
+    def test_only_doc_changes(self, mock_get, mock_response):
+        gh = GitHub(MagicMock())
+        repo = Repo(gh, 'foo', 'bar')
+        pr = PullRequest(gh, repo, '129')
+        mr = MergeRisk(pr, repo.collaborators)
+        assert_equal(mr.details['doc_only'], True)
 
+    @patch('requests.get', side_effect=diff_get_response)
+    def test_not_only_doc_changes(self, mock_get, mock_response):
+        gh = GitHub(MagicMock())
+        repo = Repo(gh, 'foo', 'bar')
+        pr = PullRequest(gh, repo, '130')
+        mr = MergeRisk(pr, repo.collaborators)
+        assert_equal(mr.details['doc_only'], False)

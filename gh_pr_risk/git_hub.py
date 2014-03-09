@@ -1,3 +1,5 @@
+import requests
+
 """
 Objects returned using the GitHub API
 """
@@ -64,6 +66,7 @@ class PullRequest(object):
         self.pr_itself = self.get_pr_itself()
         self.comments = self.get_comments()
         self.statuses = self.get_statuses()
+        self.diff = self.get_diff()
 
 
     def get_pr_itself(self):
@@ -105,3 +108,12 @@ class PullRequest(object):
             self.repo, sha)
         statuses = self.github.get(uri)
         return statuses
+
+    def get_diff(self):
+        """
+        The pull request diff as returned directly from the GitHub URL
+        Note that this is not retrieved via the API!
+        """
+        uri = 'https://github.com/{}/pull/{}.diff'.format(self.repo, self.number)
+        diff = requests.get(uri).content
+        return diff

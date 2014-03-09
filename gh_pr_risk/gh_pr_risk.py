@@ -135,6 +135,8 @@ def prs():
     repo = Repo(github, ORG, REPO_NAME)
     collaborators = repo.collaborators
 
+    # Get all the open pull requests for the repo
+    # TODO: we should only get getting the ones that are against master
     issues = IssuesList(github, repo, 'open', 'pr').issues
     pr_numbers = [issue['number'] for issue in issues['items']]
 

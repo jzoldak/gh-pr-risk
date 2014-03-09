@@ -1,3 +1,5 @@
+from diff import GitHubDiffParser
+
 class MergeRisk(object):
     """
     Calculated risk for merging a Pull Request
@@ -7,6 +9,7 @@ class MergeRisk(object):
         self.pr_itself = pr.pr_itself
         self.comments = pr.comments
         self.statuses = pr.statuses
+        self.diff = pr.diff
         self.repo_collab = repo_collab
         self.details = self.set_details()
         self.display = self.set_display()
@@ -37,6 +40,7 @@ class MergeRisk(object):
         details['mergeable'] = pr_itself.get('mergeable', None)
         details['thumbsups'] = self.get_num_thumbs()
         details['last_state'] = self.get_last_state()
+        details['doc_only'] = self.only_doc_changes()
 
         return details
 
@@ -51,7 +55,7 @@ class MergeRisk(object):
         """
         num_thumbs = 0
         for comment in self.comments:
-            if ':+1:' in comment['body']:
+            if ':+1:' in comment.get('body', []):
                 num_thumbs += 1
         return num_thumbs
 
@@ -65,6 +69,11 @@ class MergeRisk(object):
         else:
             return None
 
+    def only_doc_changes(self):
+        """
+        Whether the only changes in this PR are to doc files.
+        """
+        return GitHubDiffParser(diff=self.diff).is_only_doc_files
 
     def set_display(self):
         """
@@ -75,6 +84,7 @@ class MergeRisk(object):
             'last_state',
             'mergeable',
             'thumbsups',
+            'doc_only',
             'login',
             'commits',
             'changed_files',
