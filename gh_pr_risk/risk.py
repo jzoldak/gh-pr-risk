@@ -1,3 +1,4 @@
+from operator import itemgetter
 from diff import GitHubDiffParser
 
 class MergeRisk(object):
@@ -25,6 +26,7 @@ class MergeRisk(object):
         user = pr_itself.get('user', None)
         details['login'] = user['login'] if user else None
         details['title'] = pr_itself.get('title', None)
+        details['number'] = pr_itself.get('number', None)
 
         if details['login'] in [collab.get('login', None) for collab in self.repo_collab]:
             details['collab'] = 'Yes'
@@ -81,15 +83,17 @@ class MergeRisk(object):
         should be passed in to the template for display.
         """
         show = [
-            'last_state',
             'mergeable',
+            'last_state',
             'thumbsups',
             'doc_only',
-            'login',
             'commits',
             'changed_files',
-            'title'
+            'login',
+            'number',
+            'title',
         ]
+
         display = {}
         for key in show:
             display[key] = self.details[key]

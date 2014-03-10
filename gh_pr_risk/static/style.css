@@ -1,7 +1,7 @@
 html, form, fieldset, h1, h2, h3, h4, h5, h6, p, pre, blockquote, ul, ol, dl, address {
     margin:0;
     padding:0;
-        }
+    }
 body {
     font:76%/160% "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
     margin:8px;
@@ -41,16 +41,16 @@ table {
     border-top:1px solid #e5eff8;
     border-right:1px solid #e5eff8;
     margin:1em auto;
-        border-collapse:collapse;
+    border-collapse:collapse;
     }
 caption {
     color: #9ba9b4;
     font-size:.94em;
-        letter-spacing:.1em;
-        margin:1em 0 0 0;
-        padding:0;
-        caption-side:top;
-        text-align:center;
+    letter-spacing:.1em;
+    margin:1em 0 0 0;
+    padding:0;
+    caption-side:top;
+    text-align:center;
     }
 tr.odd td   {
     background:#f7fbff
@@ -97,3 +97,4 @@ tfoot th em {
     font-size: 1.1em;
     font-style: normal;
     }
+.login, .title { text-align: left; }

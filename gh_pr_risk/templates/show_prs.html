@@ -2,14 +2,18 @@
 {% block body %}
   <table>
   <tr>
-    {% for key in prs[0] %}
-      <th> {{ key }} </th>
+    {% for key in ['mergeable', 'last_state', 'thumbsups',
+      'doc_only', 'commits', 'changed_files', 'login', 'number',
+      'title'] %}
+      <th class={{ key }}> {{ key }} </th>
     {% endfor %}
   </tr>
   {% for pr in prs %}
     <tr>
-    {% for key, value in pr.iteritems() %}
-      <td> {{ value }} </td>
+    {% for key in ['mergeable', 'last_state', 'thumbsups',
+      'doc_only', 'commits', 'changed_files', 'login', 'number',
+      'title'] %}
+      <td class={{ key }}> {{ pr[key] }} </td>
     {% endfor %}
     </tr>
   {% endfor %}
