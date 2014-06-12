@@ -17,7 +17,7 @@ class Category(object):
         """
         Returns the sum of the (rule_weight * rule_risk) for self.rules.
         """
-        risk = sum([r[0] * r[1].risk() for r in self.rules])
+        risk = sum([r[0] * r[1].risk for r in self.rules])
         return risk
         
 
@@ -37,6 +37,7 @@ class Rule(object):
         """
         return None
     
+    @property
     def risk(self):
         """
         Uses data returned from self.get_data to calculate

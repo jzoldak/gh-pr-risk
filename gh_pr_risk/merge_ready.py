@@ -29,6 +29,7 @@ class ThumbsUpRule(Rule):
                 num_thumbs += 1
         return num_thumbs
 
+    @property
     def risk(self):
         num_thumbs = self.get_data()
         if num_thumbs >= 2:
@@ -60,6 +61,7 @@ class LastStateRule(Rule):
         else:
             return None
 
+    @property
     def risk(self):
         data = self.get_data
 
@@ -70,7 +72,7 @@ class LastStateRule(Rule):
             'error': 1,
         }
 
-        risk_vals.get(data, 1)
+        return risk_vals.get(data, 1)
 
 
 class MergableRule(Rule):
@@ -88,6 +90,7 @@ class MergableRule(Rule):
         """
         return self.pr.details.get('mergeable', None)
 
+    @property
     def risk(self):
         """
         Uses data returned from self.get_data to calculate

@@ -27,6 +27,7 @@ class TotalAgeRule(Rule):
         #return age
         return 8
 
+    @property
     def risk(self):
         """
         Uses data returned from self.get_data to calculate
@@ -56,6 +57,7 @@ class LastCommitAgeRule(Rule):
 
         return None
 
+    @property
     def risk(self):
         """
         Uses data returned from self.get_data to calculate
