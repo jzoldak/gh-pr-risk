@@ -11,6 +11,7 @@ class Category(object):
         # A list of tuples such that rule[0] is the rule's weight
         # and rule[1] is the Rule object
         self.rules = []
+        self.name = ""
 
     @property
     def risk(self):

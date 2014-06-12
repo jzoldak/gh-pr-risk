@@ -103,6 +103,7 @@ class MergableRule(Rule):
 class MergeReadyCat(Category):
     def __init__(self, pr):
         super(MergeReadyCat, self).__init__(pr)
+        self.name = 'Merge Ready Cat'
         self.rules = [
             (33, ThumbsUpRule(pr)),
             (33, LastStateRule(pr)),

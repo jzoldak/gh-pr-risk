@@ -70,6 +70,7 @@ class LastCommitAgeRule(Rule):
 class AgeCat(Category):
     def __init__(self, pr):
         super(AgeCat, self).__init__(pr)
+        self.name = "Age Cat"
         self.rules = [
             (50, LastCommitAgeRule(pr)),
             (50, TotalAgeRule(pr)),

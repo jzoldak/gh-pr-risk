@@ -20,4 +20,10 @@ def format_pr_for_display(pr, risk):
         display[key] = pr.details[key]
 
     display['risk'] = risk.risk
+
+    for cat in risk.rules:
+        display[cat[1].name + ' risk'] = cat[1].risk
+        for rule in cat[1].rules:
+            display[rule[1].name + ' risk'] = rule[1].risk
+
     return display
