@@ -2,6 +2,7 @@
 Classes for determining risk associated with age of PR
 """
 from base import Rule, Category
+import datetime
 
 class TotalAgeRule(Rule):
     """
@@ -19,13 +20,13 @@ class TotalAgeRule(Rule):
         """
         # TODO
         DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
-        created_date_unicode = self.pr.get('created_at', None)
+        created_date_unicode = self.pr.pr_itself.get('created_at', None)
         created_date = datetime.datetime.strptime(created_date_unicode, DATETIME_FORMAT)
         now = datetime.datetime.now()
         age = (now - created_date).days
 
         #return age
-        return 8
+        return age
 
     @property
     def risk(self):
@@ -33,8 +34,8 @@ class TotalAgeRule(Rule):
         Uses data returned from self.get_data to calculate
         the risk associated with this feature.
         """
-        # TODO
-        return 1
+        data = self.get_data()
+        return data
 
 class LastCommitAgeRule(Rule):
     """
