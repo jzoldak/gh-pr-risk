@@ -1,7 +1,7 @@
 """
 Helper methods
 """
-def format_pr_for_display(pr):
+def format_pr_for_display(pr, risk):
     """
     Input:
         PullRequest object
@@ -19,4 +19,5 @@ def format_pr_for_display(pr):
     for key in show:
         display[key] = pr.details[key]
 
+    display['risk'] = risk.risk
     return display

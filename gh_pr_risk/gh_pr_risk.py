@@ -15,6 +15,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from git_hub import Repo, IssuesList, PullRequest
 from helpers import format_pr_for_display
+from global_risk import GlobalRisk
 
 DATABASE_URI = 'sqlite:////tmp/github-flask.db'
 DEBUG = True
@@ -139,7 +140,8 @@ def prs():
 
     for number in pr_numbers:
         pr = PullRequest(github, repo, number)
-        display = format_pr_for_display(pr)
+        risk = GlobalRisk(pr)
+        display = format_pr_for_display(pr, risk)
         open_prs.append(display)
 
     return render_template('show_prs.html', prs=open_prs)

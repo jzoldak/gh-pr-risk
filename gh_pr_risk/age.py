@@ -1,7 +1,7 @@
 """
 Classes for determining risk associated with age of PR
 """
-from ..base import Rule, Category
+from base import Rule, Category
 
 class LastCommitAgeRule(Rule):
     """
@@ -56,8 +56,8 @@ class LastCommentAgeRule(Rule):
 
 class AgeCat(Category):
     def __init__(self, pr):
-        super(Age, self).__init__(pr)
+        super(AgeCat, self).__init__(pr)
         self.rules = [
-            (50, LastCommitAgeRule(self.pr)),
-            (50, LastCommentAgeRule(self.pr)),
+            (50, LastCommitAgeRule(pr)),
+            (50, LastCommentAgeRule(pr)),
         ]

@@ -1,7 +1,7 @@
 """
 Classes for determining merge readiness
 """
-from ..base import Rule, Category
+from base import Rule, Category
 
 class ThumbsUpRule(Rule):
     """
@@ -70,7 +70,7 @@ class LastStateRule(Rule):
             'error': 1,
         }
 
-        risk_vals.get(data, None)
+        risk_vals.get(data, 1)
 
 
 class MergableRule(Rule):
@@ -101,7 +101,7 @@ class MergeReadyCat(Category):
     def __init__(self, pr):
         super(MergeReadyCat, self).__init__(pr)
         self.rules = [
-            (33, ThumbsUpRule(self.pr)),
-            (33, LastStateRule(self.pr)),
-            (34, MergableRule(self.pr)),
+            (33, ThumbsUpRule(pr)),
+            (33, LastStateRule(pr)),
+            (34, MergableRule(pr)),
         ]
