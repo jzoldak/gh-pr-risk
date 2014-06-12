@@ -28,7 +28,7 @@ GITHUB_CALLBACK_URL = os.environ.get('GITHUB_CALLBACK_URL',
 
 ORG = 'edx'
 # REPO = 'edx-platform'
-REPO_NAME = 'bok-choy'
+REPO_NAME = 'configuration'
 
 # create the application
 app = Flask(__name__)
