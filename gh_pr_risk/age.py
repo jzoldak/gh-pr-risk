@@ -70,5 +70,5 @@ class AgeCat(Category):
         super(AgeCat, self).__init__(pr)
         self.rules = [
             (50, LastCommitAgeRule(pr)),
-            (50, LastCommentAgeRule(pr)),
+            (50, TotalAgeRule(pr)),
         ]
