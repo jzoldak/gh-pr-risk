@@ -14,7 +14,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 from git_hub import Repo, IssuesList, PullRequest
-from risk import MergeRisk
+from helpers import format_pr_for_display
 
 DATABASE_URI = 'sqlite:////tmp/github-flask.db'
 DEBUG = True
@@ -133,14 +133,13 @@ def prs():
     open_prs = []
 
     repo = Repo(github, ORG, REPO_NAME)
-    collaborators = repo.collaborators
 
     issues = IssuesList(github, repo, 'open', 'pr').issues
     pr_numbers = [issue['number'] for issue in issues['items']]
 
     for number in pr_numbers:
         pr = PullRequest(github, repo, number)
-        display = MergeRisk(pr, collaborators).display
+        display = format_pr_for_display(pr)
         open_prs.append(display)
 
     return render_template('show_prs.html', prs=open_prs)
