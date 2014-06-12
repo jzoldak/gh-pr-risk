@@ -18,7 +18,6 @@ class TotalAgeRule(Rule):
         """
         Method for obtaining data from github for self.pr.
         """
-        # TODO
         DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
         created_date_unicode = self.pr.pr_itself.get('created_at', None)
         created_date = datetime.datetime.strptime(created_date_unicode, DATETIME_FORMAT)
@@ -39,7 +38,7 @@ class TotalAgeRule(Rule):
         if data in (0, 1):
             risk = 0
         elif data > 10:
-            risk = 1
+            risk = 1.0
         else:
             risk = 0.1 * data
 
@@ -60,12 +59,15 @@ class LastCommitAgeRule(Rule):
         """
         Method for obtaining data from github for self.pr.
         """
-        # TODO
 
-        # Last commit follows a uri like this: https://api.github.com/repos/edx/configuration/commits/0a038c03e842c3d25d29cb2218c5dfbbaf310130
-        # 0a038c03e842c3d25d29cb2218c5dfbbaf310130
+        DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+        last_commit_date_unicode = self.pr.commits[-1]['commit']['author']['date']
+        last_commit_date = datetime.datetime.strptime(last_commit_date_unicode, DATETIME_FORMAT)
+        now = datetime.datetime.now()
+        age = (now - last_commit_date).days
 
-        return None
+        return age
+
 
     @property
     def risk(self):
@@ -73,8 +75,17 @@ class LastCommitAgeRule(Rule):
         Uses data returned from self.get_data to calculate
         the risk associated with this feature.
         """
-        # TODO
-        return 1
+
+        data = self.get_data()
+
+        if data in (0, 1):
+            risk = 0
+        elif data > 10:
+            risk = 1.0
+        else:
+            risk = 0.1 * data
+
+        return risk
 
 
 class AgeCat(Category):
@@ -82,6 +93,6 @@ class AgeCat(Category):
         super(AgeCat, self).__init__(pr)
         self.name = "Age Cat"
         self.rules = [
-            (50, LastCommitAgeRule(pr)),
-            (50, TotalAgeRule(pr)),
+            (80, LastCommitAgeRule(pr)),
+            (20, TotalAgeRule(pr)),
         ]
