@@ -63,7 +63,7 @@ class LastStateRule(Rule):
 
     def risk(self):
         data = self.get_data
-            
+
         risk_vals = {
             'success': 0,
             'pending': 0.5,
@@ -74,10 +74,35 @@ class LastStateRule(Rule):
         risk_vals.get(data, None)
 
 
+class MergableRule(Rule):
+    """
+    Rule for calculating risk associated the mergability.
+    """
+    def __init__(self, pr):
+        super(MergableRule, self).__init__()
+        self.name = "Mergable"
+        self.description = "Are there merge conflicts?"
+
+    def get_data(self):
+        """
+        Method for obtaining data from github for self.pr.
+        """
+        return self.pr.pr_itself.get('mergeable', None)
+
+    def risk(self):
+        """
+        Uses data returned from self.get_data to calculate
+        the risk associated with this feature.
+        """
+        mergeable = self.get_data()
+        return 0 if mergeable else 1
+
+
 class MergeReadyCat(Category):
     def __init__(self, pr):
         super(MergeReadyCat, self).__init__()
         self.rules = [
-            (50, ThumbsUpRule(self.pr)),
-            (50, LastStateRule(self.pr)),
+            (33, ThumbsUpRule(self.pr)),
+            (33, LastStateRule(self.pr)),
+            (34, MergableRule(self.pr)),
         ]
