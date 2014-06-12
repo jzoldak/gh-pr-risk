@@ -35,7 +35,16 @@ class TotalAgeRule(Rule):
         the risk associated with this feature.
         """
         data = self.get_data()
-        return data
+
+        if data in (0, 1):
+            risk = 0
+        elif data > 10:
+            risk = 1
+        else:
+            risk = 0.1 * data
+
+
+        return risk
 
 class LastCommitAgeRule(Rule):
     """
