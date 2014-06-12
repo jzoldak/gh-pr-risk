@@ -21,8 +21,8 @@ DEBUG = True
 SECRET_KEY='edx'
 
 # Set these values
-GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', None)
-GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', None)
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '0fa51816cb65a57549f1')
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '156f255fadfd1b2a9bcbcd426e545aa3495002bd')
 GITHUB_CALLBACK_URL = os.environ.get('GITHUB_CALLBACK_URL',
     'http://localhost:5000/github-callback')
 
