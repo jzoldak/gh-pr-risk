@@ -4,7 +4,6 @@ from mock import MagicMock, patch
 from flask.ext.github import GitHub
 
 from gh_pr_risk.git_hub import Repo, PullRequest, IssuesList
-from gh_pr_risk.risk import MergeRisk
 
 from helpers import fixture_stubs
 from nose.tools import assert_equal, assert_in
