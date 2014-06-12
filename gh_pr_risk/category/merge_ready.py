@@ -1,8 +1,7 @@
 """
 Classes for determining merge readiness
 """
-from base import Rule, Category
-
+from ..base import Rule, Category
 
 class ThumbsUpRule(Rule):
     """
@@ -87,7 +86,7 @@ class MergableRule(Rule):
         """
         Method for obtaining data from github for self.pr.
         """
-        return self.pr.pr_itself.get('mergeable', None)
+        return self.pr.details.get('mergeable', None)
 
     def risk(self):
         """

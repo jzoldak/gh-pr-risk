@@ -1,7 +1,7 @@
 """
 Classes for determining risk associated with age of PR
 """
-from base import Rule, Category
+from ..base import Rule, Category
 
 class LastCommitAgeRule(Rule):
     """
