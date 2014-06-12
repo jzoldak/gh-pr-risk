@@ -1,7 +1,6 @@
 """
 Base class for a risk feature rule. 
 """
-from category import MergeReadyCat
 
 class Category(object):
     """
@@ -43,19 +42,3 @@ class Rule(object):
         the risk associated with this feature.
         """
         return None 
-
-
-class GlobalRisk(Category):
-    """
-    GlobalRisk for PR
-    """
-    def __init__(self, pr):
-        super(GlobalRisk, self).__init__()
-        
-        # A list of tuples such that rule[0] is the category's weight
-        # and rule[1] is the Rule object
-        self.rules = [
-            (100, MergeReadyCat(pr)),
-        ]
-
-        
