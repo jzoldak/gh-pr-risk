@@ -9,7 +9,7 @@ class ThumbsUpRule(Rule):
     of thumbs up on a PR.
     """
     def __init__(self, pr):
-        super(ThumbsUpRule, self).__init__()
+        super(ThumbsUpRule, self).__init__(pr)
         self.name = "Thumbs Up"
         self.description = (
             "the number of thumbs up in the PR's comments"
@@ -45,7 +45,7 @@ class LastStateRule(Rule):
     of thumbs up on a PR.
     """
     def __init__(self, pr):
-        super(LastStateRule, self).__init__()
+        super(LastStateRule, self).__init__(pr)
         self.name = "Last State"
         self.description = (
             "the most recent test state of the PR"
@@ -78,7 +78,7 @@ class MergableRule(Rule):
     Rule for calculating risk associated the mergability.
     """
     def __init__(self, pr):
-        super(MergableRule, self).__init__()
+        super(MergableRule, self).__init__(pr)
         self.name = "Mergable"
         self.description = "Are there merge conflicts?"
 
@@ -99,7 +99,7 @@ class MergableRule(Rule):
 
 class MergeReadyCat(Category):
     def __init__(self, pr):
-        super(MergeReadyCat, self).__init__()
+        super(MergeReadyCat, self).__init__(pr)
         self.rules = [
             (33, ThumbsUpRule(self.pr)),
             (33, LastStateRule(self.pr)),

@@ -12,7 +12,8 @@ class Category(object):
         # and rule[1] is the Rule object
         self.rules = []
 
-    def aggregate_risk(self):
+    @property
+    def risk(self):
         """
         Returns the sum of the (rule_weight * rule_risk) for self.rules.
         """
@@ -35,7 +36,7 @@ class Rule(object):
         Method for obtaining data from github for self.pr.
         """
         return None
-
+    
     def risk(self):
         """
         Uses data returned from self.get_data to calculate
