@@ -65,6 +65,7 @@ class PullRequest(object):
         self.details = self.set_details()
         self.comments = self.get_comments()
         self.statuses = self.get_statuses()
+        self.files = self.get_files()
 
 
     def get_pr_itself(self):
@@ -86,6 +87,12 @@ class PullRequest(object):
             self.repo, self.number)
         comments = self.github.get(uri)
         return comments
+
+    def get_files(self):
+        uri = 'repos/{}/pulls/{}/files'.format(
+            self.repo, self.number)
+        files = self.github.get(uri)
+        return files
 
     def get_statuses(self):
         """

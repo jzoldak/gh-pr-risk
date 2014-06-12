@@ -1,5 +1,6 @@
 from merge_ready import MergeReadyCat
 from age import AgeCat
+from diff_files import DiffFilesCat
 from base import Category
 
 class GlobalRisk(Category):
@@ -12,6 +13,7 @@ class GlobalRisk(Category):
         # A list of tuples such that rule[0] is the category's weight
         # and rule[1] is the Rule object
         self.rules = [
-            (80, MergeReadyCat(pr)),
-            (20, AgeCat(pr))
+            (60, MergeReadyCat(pr)),
+            (20, AgeCat(pr)),
+            (20, DiffFilesCat(pr)),
         ]
