@@ -17,5 +17,5 @@ class RuleTest(unittest.TestCase):
     def test_calculate_risk(self):
         pr = Mock()
         rule = Rule(pr)
-        assert_equal(rule.calculate_risk(), None)
+        assert_equal(rule.risk(), None)
 
