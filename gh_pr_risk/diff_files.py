@@ -58,7 +58,6 @@ class FileCountRule(Rule):
         Method for obtaining data from github for self.pr.
         """
         diff_files = self.pr.files
-        print diff_files
         return len(diff_files)
 
     @property
