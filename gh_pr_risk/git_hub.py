@@ -90,6 +90,13 @@ class PullRequest(object):
         """
         A list of this Pull Request's commit statuses,
         which are the statuses of its head branch
+        see: https://developer.github.com/v3/repos/statuses/
+
+        Statuses can be:
+        Pending,
+        Success,
+        Error,
+        Failure,
         """
         try:
             sha = self.pr_itself['head']['sha']
@@ -105,3 +112,31 @@ class PullRequest(object):
             self.repo, sha)
         statuses = self.github.get(uri)
         return statuses
+
+    def set_details(self):
+        """
+        Details for the Pull Request
+        """
+        pr_itself = self.pr_itself
+
+        details = {}
+        user = pr_itself.get('user', None)
+        details['login'] = user['login'] if user else None
+        details['title'] = pr_itself.get('title', None)
+
+        # if details['login'] in [collab.get('login', None) for collab in self.repo_collab]:
+        #     details['collab'] = 'Yes'
+        # else:
+        details['collab'] = 'No'
+
+        details['comments'] = pr_itself.get('comments', None)
+        details['review_comments'] = pr_itself.get('review_comments', None)
+        details['commits'] = pr_itself.get('commits', None)
+        details['additions'] = pr_itself.get('additions', None)
+        details['deletions'] = pr_itself.get('deletions', None)
+        details['changed_files'] = pr_itself.get('changed_files', None)
+        details['mergeable'] = pr_itself.get('mergeable', None)
+        details['thumbsups'] = self.get_num_thumbs()
+        details['last_state'] = self.get_last_state()
+
+        return details
