@@ -10,23 +10,13 @@ def format_pr_for_display(pr):
         Dict with the information about the PR that
         should be passed to the template for display.
     """
-    self.pr_itself = pr.pr_itself
-    self.comments = pr.comments
-    self.statuses = pr.statuses
-    self.details = self.set_details()
-    self.display = self.set_display()
-
     show = [
-        'last_state',
-        'mergeable',
-        'thumbsups',
+        'number',
         'login',
-        'commits',
-        'changed_files',
         'title'
     ]
     display = {}
     for key in show:
-        display[key] = self.details[key]
+        display[key] = pr.details[key]
 
     return display

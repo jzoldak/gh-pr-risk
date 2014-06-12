@@ -133,7 +133,6 @@ def prs():
     open_prs = []
 
     repo = Repo(github, ORG, REPO_NAME)
-    # collaborators = repo.collaborators
 
     issues = IssuesList(github, repo, 'open', 'pr').issues
     pr_numbers = [issue['number'] for issue in issues['items']]

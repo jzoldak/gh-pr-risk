@@ -62,6 +62,7 @@ class PullRequest(object):
         self.repo = str(repo)
         self.number = number
         self.pr_itself = self.get_pr_itself()
+        self.details = self.set_details()
         self.comments = self.get_comments()
         self.statuses = self.get_statuses()
 
@@ -123,12 +124,6 @@ class PullRequest(object):
         user = pr_itself.get('user', None)
         details['login'] = user['login'] if user else None
         details['title'] = pr_itself.get('title', None)
-
-        # if details['login'] in [collab.get('login', None) for collab in self.repo_collab]:
-        #     details['collab'] = 'Yes'
-        # else:
-        details['collab'] = 'No'
-
         details['comments'] = pr_itself.get('comments', None)
         details['review_comments'] = pr_itself.get('review_comments', None)
         details['commits'] = pr_itself.get('commits', None)
@@ -136,7 +131,6 @@ class PullRequest(object):
         details['deletions'] = pr_itself.get('deletions', None)
         details['changed_files'] = pr_itself.get('changed_files', None)
         details['mergeable'] = pr_itself.get('mergeable', None)
-        details['thumbsups'] = self.get_num_thumbs()
-        details['last_state'] = self.get_last_state()
+        details['number'] = self.number
 
         return details
