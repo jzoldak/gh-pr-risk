@@ -141,7 +141,7 @@ def prs():
         display = format_pr_for_display(pr, risk)
         open_prs.append(display)
 
-    return render_template('show_prs.html', prs=open_prs, org=ORG, repo=REPO_NAME)
+    return render_template('show_prs.html', prs=open_prs, org=ORG, repo=REPO_NAME, merged=False)
 
 @app.route('/merged')
 def merged():
@@ -161,7 +161,7 @@ def merged():
         display = format_pr_for_display(pr, risk)
         merged_prs.append(display)
 
-    return render_template('show_merged_prs.html', prs=merged_prs, org=ORG, repo=REPO_NAME)
+    return render_template('show_prs.html', prs=merged_prs, org=ORG, repo=REPO_NAME, merged=True)
 
 if __name__ == '__main__':
     init_db()

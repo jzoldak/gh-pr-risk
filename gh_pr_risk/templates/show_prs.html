@@ -21,7 +21,9 @@
         <span class="risk-merge-total cat">Merge Ready Category</span>
         <span class="risk-merge-thumbs sub-cat">Thumbs Up risk</span>
         <span class="risk-merge-thumbs sub-cat">Last Test State risk</span>
-        <span class="risk-merge-thumbs sub-cat">Mergable risk</span>
+        {% if not merged %}
+          <span class="risk-merge-thumbs sub-cat">Mergable risk</span>
+        {% endif %}
       </th>
 
       <th>
@@ -51,7 +53,9 @@
         <span class="risk-merge-total cat" style="color:#{{ pr['Merge Ready Cat color'] }}"> {{ pr['Merge Ready Cat risk'] }} </span>
         <span class="risk-merge-thumbs sub-cat" style="color:#{{ pr['Thumbs Up color'] }}"> {{ pr['Thumbs Up risk'] }} </span>
         <span class="risk-merge-thumbs sub-cat" style="color:#{{ pr['Last State color'] }}"> {{ pr['Last State risk'] }}</span>
-        <span class="risk-merge-thumbs sub-cat" style="color:#{{ pr['Mergable color'] }}"> {{ pr['Mergable risk'] }}</span>
+        {% if not merged %}
+          <span class="risk-merge-thumbs sub-cat" style="color:#{{ pr['Mergable color'] }}"> {{ pr['Mergable risk'] }}</span>
+        {% endif %}
       </td>
 
       <td class="risk-age">
