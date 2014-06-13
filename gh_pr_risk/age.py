@@ -94,8 +94,8 @@ class LastCommentAgeRule(Rule):
 
 
 class AgeCat(Category):
-    def __init__(self, pr):
-        super(AgeCat, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(AgeCat, self).__init__(pr, merged)
         self.name = "Age Cat"
         self.rules = [
             (0.80, LastCommentAgeRule(pr)),

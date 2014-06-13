@@ -63,7 +63,7 @@ class LastStateRule(Rule):
 
     @property
     def risk(self):
-        data = self.get_data
+        data = self.get_data()
 
         risk_vals = {
             'success': 0.0,
@@ -101,11 +101,18 @@ class MergableRule(Rule):
 
 
 class MergeReadyCat(Category):
-    def __init__(self, pr):
-        super(MergeReadyCat, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(MergeReadyCat, self).__init__(pr, merged)
         self.name = 'Merge Ready Cat'
+        
+        if merged:
+            w = [0.4, 0.6, 0.0]
+        else: 
+            w = [0.10, 0.70, 0.20]
+
         self.rules = [
-            (0.10, ThumbsUpRule(pr)),
-            (0.70, LastStateRule(pr)),
-            (0.20, MergableRule(pr)),
+            (w[0], ThumbsUpRule(pr)),
+            (w[1], LastStateRule(pr)),
+            (w[2], MergableRule(pr)),
         ]
+

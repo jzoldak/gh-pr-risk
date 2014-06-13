@@ -5,13 +5,13 @@ def risk_format(risk):
     return int(risk*100)
 
 def risk_color(risk):
-    if risk >= 0.80:
+    if risk > 0.80:
         return 'FF003C'
-    elif risk >= 0.60:
+    elif risk > 0.60:
         return 'FF8A00'
-    elif risk >= 0.40:
+    elif risk > 0.40:
         return 'FABE28'
-    elif risk >= 0.20:
+    elif risk > 0.20:
         return '88C100'
     else:
         return '00C176'

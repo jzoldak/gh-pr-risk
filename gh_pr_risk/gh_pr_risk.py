@@ -29,8 +29,8 @@ GITHUB_CALLBACK_URL = os.environ.get('GITHUB_CALLBACK_URL',
     'http://localhost:5000/github-callback')
 
 ORG = 'edx'
-# REPO = 'edx-platform'
-REPO_NAME = 'configuration'
+REPO_NAME = 'edx-platform'
+# REPO_NAME = 'configuration'
 
 # create the application
 app = Flask(__name__)
@@ -84,7 +84,7 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    return render_template('index.html', user=g.user)
+    return render_template('index.html', user=g.user, org=ORG, repo=REPO_NAME)
 
 
 @github.access_token_getter
@@ -152,11 +152,11 @@ def merged():
 
     for number in pr_numbers:
         pr = PullRequest(github, repo, number)
-        risk = GlobalRisk(pr)
+        risk = GlobalRisk(pr, merged=True)
         display = format_pr_for_display(pr, risk)
         merged_prs.append(display)
 
-    return render_template('show_prs.html', prs=merged_prs, org=ORG, repo=REPO_NAME)
+    return render_template('show_merged_prs.html', prs=merged_prs, org=ORG, repo=REPO_NAME)
 
 if __name__ == '__main__':
     init_db()

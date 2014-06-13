@@ -71,8 +71,8 @@ class FileCountRule(Rule):
 
 
 class DiffFilesCat(Category):
-    def __init__(self, pr):
-        super(DiffFilesCat, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(DiffFilesCat, self).__init__(pr, merged)
         self.name = 'Diff Files Cat'
         self.rules = [
             (0.50, FileTypeRule(pr)),

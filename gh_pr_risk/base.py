@@ -6,7 +6,7 @@ class Category(object):
     """
     Category of features for risk assessment.
     """
-    def __init__(self, pr):
+    def __init__(self, pr, merged=False):
         super(Category, self).__init__()
         # A list of tuples such that rule[0] is the rule's weight
         # and rule[1] is the Rule object
