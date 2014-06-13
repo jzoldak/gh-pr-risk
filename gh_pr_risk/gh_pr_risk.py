@@ -23,13 +23,13 @@ DEBUG = True
 SECRET_KEY='edx'
 
 # Set these values
-GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '0fa51816cb65a57549f1')
-GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '156f255fadfd1b2a9bcbcd426e545aa3495002bd')
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '240564adf95a50c2186b')
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '7e6cb8f8398aa1b48e2d5da6f98fe658b62b4a8e')
 GITHUB_CALLBACK_URL = os.environ.get('GITHUB_CALLBACK_URL',
     'http://localhost:5000/github-callback')
 
 ORG = os.environ.get('RISK_ORG', 'edx')
-REPO_NAME = os.environ.get('RISK_REPO', 'configuration')
+REPO_NAME = os.environ.get('RISK_REPO', 'edx-platform')
 
 # create the application
 app = Flask(__name__)

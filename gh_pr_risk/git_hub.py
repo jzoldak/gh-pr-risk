@@ -46,7 +46,7 @@ class IssuesList(object):
         the query parameters.
 
         If you are looking for merged issues, return those merged
-        in the past two weeks.
+        in the past week.
 
         TODO: Note that a maximum of 100 items are returned at
         a time. If you need more than that number, we will
@@ -56,8 +56,8 @@ class IssuesList(object):
         # See https://help.github.com/articles/searching-issues
         if self.state is 'merged':
             DATETIME_FORMAT = "%Y-%m-%d"
-            two_weeks_ago = datetime.datetime.utcnow() - datetime.timedelta(days=14)
-            merged_after = two_weeks_ago.strftime(DATETIME_FORMAT)
+            one_week_ago = datetime.datetime.utcnow() - datetime.timedelta(days=7)
+            merged_after = one_week_ago.strftime(DATETIME_FORMAT)
             uri = 'search/issues?q=repo:{}+type:{}+merged:>={}'.format(
                 self.repo, self.issue_type, merged_after)
         else:
