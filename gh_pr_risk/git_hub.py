@@ -1,6 +1,9 @@
 """
 Objects returned using the GitHub API
 """
+
+import datetime
+
 class Repo(object):
     """
     A GitHub repository that you are working with
@@ -42,12 +45,25 @@ class IssuesList(object):
         Retrieve a list of the Issues from GitHub that match
         the query parameters.
 
+        If you are looking for merged issues, return those merged
+        in the past two weeks.
+
         TODO: Note that a maximum of 100 items are returned at
         a time. If you need more than that number, we will
         need to deal with pagination.
         """
-        uri = 'search/issues?q=repo:{}+state:{}+type:{}'.format(
-            self.repo, self.state, self.issue_type)
+
+        # See https://help.github.com/articles/searching-issues
+        if self.state is 'merged':
+            DATETIME_FORMAT = "%Y-%m-%d"
+            two_weeks_ago = datetime.datetime.utcnow() - datetime.timedelta(days=14)
+            merged_after = two_weeks_ago.strftime(DATETIME_FORMAT)
+            uri = 'search/issues?q=repo:{}+type:{}+merged:>={}'.format(
+                self.repo, self.issue_type, merged_after)
+        else:
+            uri = 'search/issues?q=repo:{}+state:{}+type:{}'.format(
+                self.repo, self.state, self.issue_type)
+
         issues = self.github.get(uri)
         return issues
 

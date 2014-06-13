@@ -130,7 +130,7 @@ def prs():
 
     repo = Repo(github, ORG, REPO_NAME)
 
-    issues = IssuesList(github, repo, 'open', 'pr').issues
+    issues = IssuesList(github, repo, state='open', issue_type='pr').issues
     pr_numbers = [issue['number'] for issue in issues['items']]
 
     for number in pr_numbers:
@@ -141,6 +141,22 @@ def prs():
 
     return render_template('show_prs.html', prs=open_prs, org=ORG, repo=REPO_NAME)
 
+@app.route('/merged')
+def merged():
+    merged_prs = []
+
+    repo = Repo(github, ORG, REPO_NAME)
+
+    issues = IssuesList(github, repo, state='merged', issue_type='pr').issues
+    pr_numbers = [issue['number'] for issue in issues['items']]
+
+    for number in pr_numbers:
+        pr = PullRequest(github, repo, number)
+        risk = GlobalRisk(pr)
+        display = format_pr_for_display(pr, risk)
+        merged_prs.append(display)
+
+    return render_template('show_prs.html', prs=merged_prs, org=ORG, repo=REPO_NAME)
 
 if __name__ == '__main__':
     init_db()
