@@ -1,9 +1,10 @@
 <!doctype html>
-<title>GitHub PR Risk</title>
+<title>GitHub PR Risk - {{ repo }}</title>
 
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
 <div class=page>
-  <h1>GitHub PR Risk</h1>
+  <h1>Pull Request Risk</h1>
+  <h3>for requests in {{ org }}/{{ repo }}</h3>
   <div class=metanav>
   </div>
   {% for message in get_flashed_messages() %}
