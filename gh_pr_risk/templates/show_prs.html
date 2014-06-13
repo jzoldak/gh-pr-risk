@@ -1,5 +1,12 @@
 {% extends "layout.html" %}
+
+{% block title %} for {{ repo }}{% endblock %}
+
+
 {% block body %}
+<h2 class="title">Pull Request Risk</h2>
+<h3 class="subtitle">for requests in {{ org }}/{{ repo }}</h3>
+
   <table class="table table-striped table-bordered table-condensed table-hover">
   <tr>
       <th>number</th>
