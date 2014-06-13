@@ -125,6 +125,9 @@ def logout():
 
 @app.route('/prs')
 def prs():
+    if not session.get('user_id', None):
+        return redirect(url_for('index'))
+
     open_prs = []
 
     repo = Repo(github, ORG, REPO_NAME)
@@ -142,6 +145,9 @@ def prs():
 
 @app.route('/merged')
 def merged():
+    if not session.get('user_id', None):
+        return redirect(url_for('index'))
+
     merged_prs = []
 
     repo = Repo(github, ORG, REPO_NAME)
