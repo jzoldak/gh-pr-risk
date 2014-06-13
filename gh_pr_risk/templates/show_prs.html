@@ -6,49 +6,63 @@
 {% block body %}
 <h2 class="title">Pull Request Risk</h2>
 <h3 class="subtitle">for requests in {{ org }}/{{ repo }}</h3>
-
-  <table class="table table-striped table-bordered table-condensed table-hover">
+  <table class="risk-table table table-striped table-bordered table-condensed table-hover">
   <tr>
-      <th>number</th>
-      <th>title</th>
-      <th>login</th>
-
       <th>risk</th>
 
-      <th>Merge Ready Category</th>
-      <th>Thumbs Up risk </th>
-      <th>Last State risk </th>
-      <th>Mergable risk </th>
+      <th>
+        <span class="pr-info">Pull Request</span>
+        <span class="pr-no">number</span>
+        <span class="pr-title">title</span>
+        <span class="pr-username">username</span>
+      </th>
 
-      <th>Age Category</th>
-      <th>Last Comment Age risk </th>
-      <th>Total PR Age risk </th>
+      <th>
+        <span class="risk-merge-total">Merge Ready Category</span>
+        <span class="risk-merge-thumbs">Thumbs Up risk</span>
+      </th>
 
-      <th>Diff Files Category</th>
-      <th>File Type risk </th>
-      <th>File Count risk </th>
+      <th>
+        <span class="risk-age-total">Age Category</span>
+        <span class="risk-age-comments">Last Comment Age risk</span>
+        <span class="risk-age-days">Total PR Age risk</span>
+      </th>
+
+      <th>
+        <span class="risk-diff-total">Diff Files Category</span>
+        <span class="risk-diff-type">File Type risk</span>
+        <span class="risk-diff-count">File Count risk</span>
+      </th>
   </tr>
 
   {% for pr in prs %}
     <tr>
-      <td> {{ pr['number'] }} </td>
-      <td> {{ pr['title'] }} </td>
-      <td> {{ pr['login'] }} </td>
+      <td class="risk" style="color:#{{ pr['risk color'] }}"> {{ pr['risk'] }} </td>
 
-      <td style="color:#{{ pr['risk color'] }}"> {{ pr['risk'] }} </td>
+      <td class="pr-info">
+        <span class="pr-no">{{ pr['number'] }}</span>
+        <span class="pr-title"> {{ pr['title'] }} </span>
+        <span class="pr-username"> {{ pr['login'] }} </span>
+      </td>
 
-      <td style="color:#{{ pr['Merge Ready Cat color'] }}"> {{ pr['Merge Ready Cat risk'] }} </td>
-      <td style="color:#{{ pr['Thumbs Up color'] }}"> {{ pr['Thumbs Up risk'] }} </td>
-      <td style="color:#{{ pr['Last State color'] }}"> {{ pr['Last State risk'] }} </td>
-      <td style="color:#{{ pr['Mergable color'] }}"> {{ pr['Mergable risk'] }} </td>
 
-      <td style="color:#{{ pr['Age Cat color'] }}"> {{ pr['Age Cat risk'] }} </td>
-      <td style="color:#{{ pr['Last Comment Age color'] }}"> {{ pr['Last Comment Age risk'] }} </td>
-      <td style="color:#{{ pr['Total PR Age color'] }}"> {{ pr['Total PR Age risk'] }} </td>
+      <td class="risk-merge">
+        <span class="risk-merge-total" style="color:#{{ pr['Merge Ready Cat color'] }}"> {{ pr['Merge Ready Cat risk'] }} </span>
+        <span class="risk-merge-thumbs" style="color:#{{ pr['Thumbs Up color'] }}"> {{ pr['Thumbs Up risk'] }} </span>
+      </td>
 
-      <td style="color:#{{ pr['Diff Files Cat color'] }}"> {{ pr['Diff Files Cat risk'] }} </td>
-      <td style="color:#{{ pr['File Type color'] }}"> {{ pr['File Type risk'] }} </td>
-      <td style="color:#{{ pr['File Count color'] }}"> {{ pr['File Count risk'] }} </td>
+      <td class="risk-age">
+        <span class="risk-age-total" style="color:#{{ pr['Age Cat color'] }}"> {{ pr['Age Cat risk'] }} </span>
+        <span class="risk-age-comments" style="color:#{{ pr['Last Comment Age color'] }}"> {{ pr['Last Comment Age risk'] }} </span>
+        <span class="risk-age-days" style="color:#{{ pr['Total PR Age color'] }}"> {{ pr['Total PR Age risk'] }} </span>
+      </td>
+
+      <td class="risk-diff">
+        <span class="risk-diff-total" style="color:#{{ pr['Diff Files Cat color'] }}"> {{ pr['Diff Files Cat risk'] }} </span>
+        <span class="risk-diff-type" style="color:#{{ pr['File Type color'] }}"> {{ pr['File Type risk'] }} </span>
+        <span class="risk-diff-count" style="color:#{{ pr['File Count color'] }}"> {{ pr['File Count risk'] }} </span>
+      </td>
+
     </tr>
   {% endfor %}
 
