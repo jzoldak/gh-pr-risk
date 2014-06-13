@@ -21,7 +21,7 @@ class TotalAgeRule(Rule):
         DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
         created_date_unicode = self.pr.pr_itself.get('created_at', None)
         created_date = datetime.datetime.strptime(created_date_unicode, DATETIME_FORMAT)
-        now = datetime.datetime.now()
+        now = datetime.datetime.utcnow()
         age = (now - created_date).days
 
         #return age
@@ -63,7 +63,7 @@ class LastCommitAgeRule(Rule):
         DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
         last_commit_date_unicode = self.pr.commits[-1]['commit']['author']['date']
         last_commit_date = datetime.datetime.strptime(last_commit_date_unicode, DATETIME_FORMAT)
-        now = datetime.datetime.now()
+        now = datetime.datetime.utcnow()
         age = (now - last_commit_date).days
 
         return age
