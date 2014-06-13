@@ -6,6 +6,7 @@ import logging
 
 from flask import Flask, request, session, g, redirect, url_for
 from flask import render_template, render_template_string
+from flask_bootstrap import Bootstrap
 
 from flask.ext.github import GitHub
 
@@ -14,21 +15,21 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 from git_hub import Repo, IssuesList, PullRequest
-from risk import MergeRisk
+from helpers import format_pr_for_display
+from global_risk import GlobalRisk
 
 DATABASE_URI = 'sqlite:////tmp/github-flask.db'
 DEBUG = True
 SECRET_KEY='edx'
 
 # Set these values
-GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', None)
-GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', None)
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '240564adf95a50c2186b')
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '7e6cb8f8398aa1b48e2d5da6f98fe658b62b4a8e')
 GITHUB_CALLBACK_URL = os.environ.get('GITHUB_CALLBACK_URL',
     'http://localhost:5000/github-callback')
 
-ORG = 'edx'
-# REPO = 'edx-platform'
-REPO_NAME = 'bok-choy'
+ORG = os.environ.get('RISK_ORG', 'edx')
+REPO_NAME = os.environ.get('RISK_REPO', 'edx-platform')
 
 # create the application
 app = Flask(__name__)
@@ -82,13 +83,7 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    if g.user:
-        t = 'Hello! <a href="{{ url_for("prs") }}">See Pull Requests</a> ' \
-            '<a href="{{ url_for("logout") }}">Logout</a>'
-    else:
-        t = 'Hello! <a href="{{ url_for("login") }}">Login</a>'
-
-    return render_template_string(t)
+    return render_template('index.html', user=g.user, org=ORG, repo=REPO_NAME)
 
 
 @github.access_token_getter
@@ -130,23 +125,45 @@ def logout():
 
 @app.route('/prs')
 def prs():
+    if not session.get('user_id', None):
+        return redirect(url_for('index'))
+
     open_prs = []
 
     repo = Repo(github, ORG, REPO_NAME)
-    collaborators = repo.collaborators
 
-    issues = IssuesList(github, repo, 'open', 'pr').issues
+    issues = IssuesList(github, repo, state='open', issue_type='pr').issues
     pr_numbers = [issue['number'] for issue in issues['items']]
 
     for number in pr_numbers:
         pr = PullRequest(github, repo, number)
-        display = MergeRisk(pr, collaborators).display
+        risk = GlobalRisk(pr)
+        display = format_pr_for_display(pr, risk)
         open_prs.append(display)
 
-    return render_template('show_prs.html', prs=open_prs)
+    return render_template('show_prs.html', prs=open_prs, org=ORG, repo=REPO_NAME, merged=False)
 
+@app.route('/merged')
+def merged():
+    if not session.get('user_id', None):
+        return redirect(url_for('index'))
+
+    merged_prs = []
+
+    repo = Repo(github, ORG, REPO_NAME)
+
+    issues = IssuesList(github, repo, state='merged', issue_type='pr').issues
+    pr_numbers = [issue['number'] for issue in issues['items']]
+
+    for number in pr_numbers:
+        pr = PullRequest(github, repo, number)
+        risk = GlobalRisk(pr, merged=True)
+        display = format_pr_for_display(pr, risk)
+        merged_prs.append(display)
+
+    return render_template('show_prs.html', prs=merged_prs, org=ORG, repo=REPO_NAME, merged=True)
 
 if __name__ == '__main__':
     init_db()
     logging.basicConfig(level=logging.DEBUG)
-    app.run(debug=True)
+    Bootstrap(app.run(debug=True))

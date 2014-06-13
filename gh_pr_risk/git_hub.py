@@ -1,6 +1,9 @@
 """
 Objects returned using the GitHub API
 """
+
+import datetime
+
 class Repo(object):
     """
     A GitHub repository that you are working with
@@ -42,12 +45,25 @@ class IssuesList(object):
         Retrieve a list of the Issues from GitHub that match
         the query parameters.
 
+        If you are looking for merged issues, return those merged
+        in the past week.
+
         TODO: Note that a maximum of 100 items are returned at
         a time. If you need more than that number, we will
         need to deal with pagination.
         """
-        uri = 'search/issues?q=repo:{}+state:{}+type:{}'.format(
-            self.repo, self.state, self.issue_type)
+
+        # See https://help.github.com/articles/searching-issues
+        if self.state is 'merged':
+            DATETIME_FORMAT = "%Y-%m-%d"
+            one_week_ago = datetime.datetime.utcnow() - datetime.timedelta(days=7)
+            merged_after = one_week_ago.strftime(DATETIME_FORMAT)
+            uri = 'search/issues?q=repo:{}+type:{}+merged:>={}'.format(
+                self.repo, self.issue_type, merged_after)
+        else:
+            uri = 'search/issues?q=repo:{}+state:{}+type:{}'.format(
+                self.repo, self.state, self.issue_type)
+
         issues = self.github.get(uri)
         return issues
 
@@ -62,8 +78,10 @@ class PullRequest(object):
         self.repo = str(repo)
         self.number = number
         self.pr_itself = self.get_pr_itself()
+        self.details = self.set_details()
         self.comments = self.get_comments()
         self.statuses = self.get_statuses()
+        self.files = self.get_files()
 
 
     def get_pr_itself(self):
@@ -86,10 +104,23 @@ class PullRequest(object):
         comments = self.github.get(uri)
         return comments
 
+    def get_files(self):
+        uri = 'repos/{}/pulls/{}/files'.format(
+            self.repo, self.number)
+        files = self.github.get(uri)
+        return files
+
     def get_statuses(self):
         """
         A list of this Pull Request's commit statuses,
         which are the statuses of its head branch
+        see: https://developer.github.com/v3/repos/statuses/
+
+        Statuses can be:
+        Pending,
+        Success,
+        Error,
+        Failure,
         """
         try:
             sha = self.pr_itself['head']['sha']
@@ -105,3 +136,24 @@ class PullRequest(object):
             self.repo, sha)
         statuses = self.github.get(uri)
         return statuses
+
+    def set_details(self):
+        """
+        Details for the Pull Request
+        """
+        pr_itself = self.pr_itself
+
+        details = {}
+        user = pr_itself.get('user', None)
+        details['login'] = user['login'] if user else None
+        details['title'] = pr_itself.get('title', None)
+        details['comments'] = pr_itself.get('comments', None)
+        details['review_comments'] = pr_itself.get('review_comments', None)
+        details['commits'] = pr_itself.get('commits', None)
+        details['additions'] = pr_itself.get('additions', None)
+        details['deletions'] = pr_itself.get('deletions', None)
+        details['changed_files'] = pr_itself.get('changed_files', None)
+        details['mergeable'] = pr_itself.get('mergeable', None)
+        details['number'] = self.number
+
+        return details

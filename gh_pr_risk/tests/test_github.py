@@ -4,7 +4,6 @@ from mock import MagicMock, patch
 from flask.ext.github import GitHub
 
 from gh_pr_risk.git_hub import Repo, PullRequest, IssuesList
-from gh_pr_risk.risk import MergeRisk
 
 from helpers import fixture_stubs
 from nose.tools import assert_equal, assert_in
@@ -38,58 +37,3 @@ class GitHubTest(unittest.TestCase):
         repo = Repo(gh, 'foo', 'bar')
         pr = PullRequest(gh, repo, '123')
         assert_equal(len(pr.comments), 3)
-
-
-@patch('flask.ext.github.GitHub.get', side_effect=fixture_stubs)
-class MergeRiskTest(unittest.TestCase):
-
-    def test_is_collab(self, mock_get):
-        gh = GitHub(MagicMock())
-        repo = Repo(gh, 'foo', 'bar')
-        pr = PullRequest(gh, repo, '124')
-        mr = MergeRisk(pr, repo.collaborators)
-        assert_equal(mr.details['collab'], 'Yes')
-
-    def test_is_not_collab(self, mock_get):
-        gh = GitHub(MagicMock())
-        repo = Repo(gh, 'foo', 'bar')
-        pr = PullRequest(gh, repo, '125')
-        mr = MergeRisk(pr, repo.collaborators)
-        assert_equal(mr.details['collab'], 'No')
-
-    def test_no_thumbs(self, mock_get):
-        gh = GitHub(MagicMock())
-        repo = Repo(gh, 'foo', 'bar')
-        pr = PullRequest(gh, repo, '124')
-        mr = MergeRisk(pr, repo.collaborators)
-        assert_equal(mr.details['thumbsups'], 0)
-
-    def test_one_thumbs(self, mock_get):
-        gh = GitHub(MagicMock())
-        repo = Repo(gh, 'foo', 'bar')
-        pr = PullRequest(gh, repo, '126')
-        mr = MergeRisk(pr, repo.collaborators)
-        assert_equal(mr.details['thumbsups'], 1)
-
-    def test_multiple_thumbs(self, mock_get):
-        gh = GitHub(MagicMock())
-        repo = Repo(gh, 'foo', 'bar')
-        pr = PullRequest(gh, repo, '127')
-        mr = MergeRisk(pr, repo.collaborators)
-        assert_equal(mr.details['thumbsups'], 2)
-
-    def test_last_state(self, mock_get):
-        gh = GitHub(MagicMock())
-        repo = Repo(gh, 'foo', 'bar')
-        pr = PullRequest(gh, repo, '122')
-        mr = MergeRisk(pr, repo.collaborators)
-        assert_equal(mr.details['last_state'], 'pending')
-
-    def test_no_status(self, mock_get):
-        gh = GitHub(MagicMock())
-        repo = Repo(gh, 'foo', 'bar')
-        pr = PullRequest(gh, repo, '126')
-        mr = MergeRisk(pr, repo.collaborators)
-        assert_equal(mr.details['last_state'], None)
-
-

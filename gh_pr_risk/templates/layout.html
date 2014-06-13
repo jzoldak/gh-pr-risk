@@ -1,12 +1,40 @@
-<!doctype html>
-<title>GitHub PR Risk</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<div class=page>
-  <h1>GitHub PR Risk</h1>
-  <div class=metanav>
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]-->
+<!--[if IE 7]><html class="ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Risky? GitHub PR Risk for edX {% block title %}{% endblock %}</title>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="risky {% block body_class %}{% endblock %}">
+
+<div class="page">
+  <div class="header">
+    <h1 class="title"><a href="/">Risky?</a></h1>
+    <h2 class="subtitle">Evaluating the merge risk for {{ org }} since 2014</h2>
   </div>
-  {% for message in get_flashed_messages() %}
-    <div class=flash>{{ message }}</div>
-  {% endfor %}
-  {% block body %}{% endblock %}
+  <div class="nav">
+    <ul class="nav-list">
+    {% if g.user %}
+      <li class="nav-item"><a href="{{ url_for("prs") }}">Open Pull Requests</a></li>
+      <li class="nav-item"><a href="{{ url_for("merged") }}">Merged Pull Requests</a></li>
+      <li class="nav-item"><a href="{{ url_for("logout") }}">Logout</a></li>
+    {% else %}
+      <li class="nav-item"><a href="{{ url_for("login") }}">Login</a></li>
+    {% endif %}
+    </ul>
+  </div>
+{% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+{% endfor %}
+  <div class="content">
+    {% block body %}{% endblock %}
+  </div>
 </div>
