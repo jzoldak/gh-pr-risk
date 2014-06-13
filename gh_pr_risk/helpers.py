@@ -1,6 +1,9 @@
 """
 Helper methods
 """
+def two_places(some_float):
+    return "{0:.2f}".format(some_float)
+
 def format_pr_for_display(pr, risk):
     """
     Input:
@@ -19,11 +22,11 @@ def format_pr_for_display(pr, risk):
     for key in show:
         display[key] = pr.details[key]
 
-    display['risk'] = risk.risk
+    display['risk'] = two_places(risk.risk)
 
     for cat in risk.rules:
-        display[cat[1].name + ' risk'] = cat[1].risk
+        display[cat[1].name + ' risk'] = two_places(cat[1].risk)
         for rule in cat[1].rules:
-            display[rule[1].name + ' risk'] = rule[1].risk
+            display[rule[1].name + ' risk'] = two_places(rule[1].risk)
 
     return display

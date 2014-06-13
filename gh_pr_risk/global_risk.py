@@ -13,7 +13,7 @@ class GlobalRisk(Category):
         # A list of tuples such that rule[0] is the category's weight
         # and rule[1] is the Rule object
         self.rules = [
-            (60, MergeReadyCat(pr)),
-            (20, AgeCat(pr)),
-            (20, DiffFilesCat(pr)),
+            (0.60, MergeReadyCat(pr)),
+            (0.20, AgeCat(pr)),
+            (0.20, DiffFilesCat(pr)),
         ]

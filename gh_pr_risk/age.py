@@ -36,7 +36,7 @@ class TotalAgeRule(Rule):
         data = self.get_data()
 
         if data in (0, 1):
-            risk = 0
+            risk = 0.0
         elif data > 10:
             risk = 1.0
         else:
@@ -79,7 +79,7 @@ class LastCommitAgeRule(Rule):
         data = self.get_data()
 
         if data in (0, 1):
-            risk = 0
+            risk = 0.0
         elif data > 10:
             risk = 1.0
         else:
@@ -93,6 +93,6 @@ class AgeCat(Category):
         super(AgeCat, self).__init__(pr)
         self.name = "Age Cat"
         self.rules = [
-            (80, LastCommitAgeRule(pr)),
-            (20, TotalAgeRule(pr)),
+            (0.80, LastCommitAgeRule(pr)),
+            (0.20, TotalAgeRule(pr)),
         ]
