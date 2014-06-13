@@ -6,6 +6,7 @@ import logging
 
 from flask import Flask, request, session, g, redirect, url_for
 from flask import render_template, render_template_string
+from flask_bootstrap import Bootstrap
 
 from flask.ext.github import GitHub
 
@@ -150,4 +151,4 @@ def prs():
 if __name__ == '__main__':
     init_db()
     logging.basicConfig(level=logging.DEBUG)
-    app.run(debug=True)
+    Bootstrap(app.run(debug=True))
