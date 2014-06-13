@@ -4,6 +4,17 @@ Classes for determining risk associated with age of PR
 from base import Rule, Category
 import datetime
 
+def get_date_from_unicode(unicode_date):
+    """
+    :param unicode_date: a date in github-formatted unicode
+    :return: datetime
+    """
+
+    DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+    date = datetime.datetime.strptime(unicode_date, DATETIME_FORMAT)
+    return date
+
+
 class TotalAgeRule(Rule):
     """
     Rule for calculating risk associated the age of
@@ -18,9 +29,8 @@ class TotalAgeRule(Rule):
         """
         Method for obtaining data from github for self.pr.
         """
-        DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
         created_date_unicode = self.pr.pr_itself.get('created_at', None)
-        created_date = datetime.datetime.strptime(created_date_unicode, DATETIME_FORMAT)
+        created_date = get_date_from_unicode(created_date_unicode)
         now = datetime.datetime.utcnow()
         age = (now - created_date).days
 
@@ -61,13 +71,13 @@ class LastCommentAgeRule(Rule):
         Method for obtaining data from github for self.pr.
         """
 
-        DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
         if len(self.pr.comments) > 0:
             last_commit_date_unicode = self.pr.comments[-1]['updated_at']
         else:
             # Consider no comments on a PR to be bad and assign a high number
             return 100
-        last_commit_date = datetime.datetime.strptime(last_commit_date_unicode, DATETIME_FORMAT)
+
+        last_commit_date = get_date_from_unicode(last_commit_date_unicode)
         now = datetime.datetime.utcnow()
         age = (now - last_commit_date).days
 
