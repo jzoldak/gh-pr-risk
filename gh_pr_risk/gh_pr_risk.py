@@ -145,7 +145,7 @@ def prs():
         display = format_pr_for_display(pr, risk)
         open_prs.append(display)
 
-    return render_template('show_prs.html', prs=open_prs)
+    return render_template('show_prs.html', prs=open_prs, org=ORG, repo=REPO_NAME)
 
 
 if __name__ == '__main__':
