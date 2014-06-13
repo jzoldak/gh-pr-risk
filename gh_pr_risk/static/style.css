@@ -82,7 +82,7 @@ a:hover {
 
 .table th,
 .table td {
-  padding: 8px;
+  padding: 8px 15px;
   line-height: 20px;
   text-align: left;
   vertical-align: top;
@@ -90,8 +90,9 @@ a:hover {
 }
 
 .table th {
-  vertical-align: bottom;
-  font-weight: bold;
+  border-bottom: 2px solid #e1eaec;
+  vertical-align: middle;
+  font-weight: normal;
 }
 
 .table-bordered {
@@ -191,7 +192,66 @@ a:hover {
 
 /* open PRs bits */
 
-.risk-table span {
-  display: block;
+.risk-table .risk {
+  vertical-align: middle;
+  text-align: center;
+  color: #000;
+  font-size: 22px;
+  font-weight: 600;
 }
+
+.risk-table th {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.risk-table span {
+  display: inline-block;
+}
+
+.risk-table .cat {
+  display: block;
+  margin-bottom: 5px;
+  color: #000;
+  font-size: 16px;
+}
+
+.risk-table .sub-cat:after {
+  content:" - ";
+  color: #999;
+}
+
+.risk-table .sub-cat:last-child:after {
+  content:"";
+}
+
+.risk-table td .pr-no {
+  font-weight: 800;
+}
+
+.risk-table td .pr-username {
+  color: #777;
+}
+
+.risk-table td .pr-username:before {
+  content:" - ";
+}
+
+.risk-table td .pr-title {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.risk-table td .cat {
+  font-weight: 800;
+}
+
+.risk-table td .sub-cat {
+  font-size: 12px;
+}
+
+
+
 
