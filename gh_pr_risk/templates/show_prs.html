@@ -1,10 +1,15 @@
 {% extends "layout.html" %}
 
 {% block title %} for {{ repo }}{% endblock %}
-
+{% block body_class %}open{% endblock %}
 
 {% block body %}
-<h2 class="title">Pull Request Risk</h2>
+
+{% if not merged %}
+  <h2 class="title">Open Pull Requests</h2>
+{% else %}
+  <h2 class="title">Recently Merged Pull Requests</h2>
+{% endif %}
 <h3 class="subtitle">for requests in {{ org }}/{{ repo }}</h3>
   <table class="risk-table table table-striped table-bordered table-condensed table-hover">
   <tr>
@@ -19,8 +24,8 @@
 
       <th>
         <span class="risk-merge-total cat">Merge Ready Category</span>
-        <span class="risk-merge-thumbs sub-cat">Thumbs Up risk</span>
-        <span class="risk-merge-thumbs sub-cat">Last Test State risk</span>
+        <span class="risk-merge-thumbs sub-cat">Thumbs-up risk</span>
+        <span class="risk-merge-thumbs sub-cat">Last test state risk</span>
         {% if not merged %}
           <span class="risk-merge-thumbs sub-cat">Mergable risk</span>
         {% endif %}
@@ -28,14 +33,14 @@
 
       <th>
         <span class="risk-age-total cat">Age Category</span>
-        <span class="risk-age-comments sub-cat">Last Comment Age risk</span>
-        <span class="risk-age-days sub-cat">Total PR Age risk</span>
+        <span class="risk-age-comments sub-cat">Last comment age risk</span>
+        <span class="risk-age-days sub-cat">Total PR age risk</span>
       </th>
 
       <th>
         <span class="risk-diff-total cat">Diff Files Category</span>
-        <span class="risk-diff-type sub-cat">File Type risk</span>
-        <span class="risk-diff-count sub-cat">File Count risk</span>
+        <span class="risk-diff-type sub-cat">File type risk</span>
+        <span class="risk-diff-count sub-cat">File count risk</span>
       </th>
   </tr>
 

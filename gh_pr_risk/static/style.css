@@ -249,6 +249,7 @@ a:hover {
 }
 
 .risk-table td .sub-cat {
+  opacity: .5;
   font-size: 12px;
 }
 
