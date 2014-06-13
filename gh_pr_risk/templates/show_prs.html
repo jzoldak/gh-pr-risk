@@ -35,20 +35,20 @@
       <td> {{ pr['title'] }} </td>
       <td> {{ pr['login'] }} </td>
 
-      <td> {{ pr['risk'] }} </td>
+      <td style="color:#{{ pr['risk color'] }}"> {{ pr['risk'] }} </td>
 
-      <td> {{ pr['Merge Ready Cat risk'] }} </td>
-      <td> {{ pr['Thumbs Up risk'] }} </td>
-      <td> {{ pr['Last State risk'] }} </td>
-      <td> {{ pr['Mergable risk'] }} </td>
+      <td style="color:#{{ pr['Merge Ready Cat color'] }}"> {{ pr['Merge Ready Cat risk'] }} </td>
+      <td style="color:#{{ pr['Thumbs Up color'] }}"> {{ pr['Thumbs Up risk'] }} </td>
+      <td style="color:#{{ pr['Last State color'] }}"> {{ pr['Last State risk'] }} </td>
+      <td style="color:#{{ pr['Mergable color'] }}"> {{ pr['Mergable risk'] }} </td>
 
-      <td> {{ pr['Age Cat risk'] }} </td>
-      <td> {{ pr['Last Commit Age risk'] }} </td>
-      <td> {{ pr['Total PR Age risk'] }} </td>
+      <td style="color:#{{ pr['Age Cat color'] }}"> {{ pr['Age Cat risk'] }} </td>
+      <td style="color:#{{ pr['Last Commit Age color'] }}"> {{ pr['Last Commit Age risk'] }} </td>
+      <td style="color:#{{ pr['Total PR Age color'] }}"> {{ pr['Total PR Age risk'] }} </td>
 
-      <td> {{ pr['Diff Files Cat risk'] }} </td>
-      <td> {{ pr['File Type risk'] }} </td>
-      <td> {{ pr['File Count risk'] }} </td>
+      <td style="color:#{{ pr['Diff Files Cat color'] }}"> {{ pr['Diff Files Cat risk'] }} </td>
+      <td style="color:#{{ pr['File Type color'] }}"> {{ pr['File Type risk'] }} </td>
+      <td style="color:#{{ pr['File Count color'] }}"> {{ pr['File Count risk'] }} </td>
     </tr>
   {% endfor %}
 
