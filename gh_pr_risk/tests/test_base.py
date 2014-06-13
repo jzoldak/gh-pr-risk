@@ -10,12 +10,12 @@ class RuleTest(unittest.TestCase):
 
     def test_get_data(self):
         pr = Mock()
-        rule = Rule(pr)
+        rule = Rule(pr, merged=False)
         assert_equal(rule.get_data(), None)
 
 
     def test_calculate_risk(self):
         pr = Mock()
-        rule = Rule(pr)
+        rule = Rule(pr, merged=False)
         assert_equal(rule.risk, None)
 

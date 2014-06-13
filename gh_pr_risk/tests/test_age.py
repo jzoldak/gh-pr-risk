@@ -14,15 +14,17 @@ from nose.tools import assert_equal
 class TotalAgeRuleTest(unittest.TestCase):
 
     def test_get_data(self, mock_get):
+        merged = False
         gh = GitHub(MagicMock())
         repo = Repo(gh, 'foo', 'bar')
         pr = PullRequest(gh, repo, 201)
-        rule = TotalAgeRule(pr)
-        assert_equal(rule.get_data(), 2)
+        rule = TotalAgeRule(pr, merged)
+        assert_equal(rule.get_data(), 3)
 
     def test_calculate_risk(self, mock_get):
+        merged = False
         gh = GitHub(MagicMock())
         repo = Repo(gh, 'foo', 'bar')
         pr = PullRequest(gh, repo, 201)
-        rule = TotalAgeRule(pr)
-        assert_equal(rule.risk, 0.2)
+        rule = TotalAgeRule(pr, merged)
+        assert_equal(rule.risk, 0.3)

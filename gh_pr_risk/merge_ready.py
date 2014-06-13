@@ -8,8 +8,8 @@ class ThumbsUpRule(Rule):
     Rule for calculating risk associated with the number
     of thumbs up on a PR.
     """
-    def __init__(self, pr):
-        super(ThumbsUpRule, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(ThumbsUpRule, self).__init__(pr, merged)
         self.name = "Thumbs Up"
         self.description = (
             "the number of thumbs up in the PR's comments"
@@ -45,8 +45,8 @@ class LastStateRule(Rule):
     Rule for calculating risk associated with the number
     of thumbs up on a PR.
     """
-    def __init__(self, pr):
-        super(LastStateRule, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(LastStateRule, self).__init__(pr, merged)
         self.name = "Last State"
         self.description = (
             "the most recent test state of the PR"
@@ -79,8 +79,8 @@ class MergableRule(Rule):
     """
     Rule for calculating risk associated the mergability.
     """
-    def __init__(self, pr):
-        super(MergableRule, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(MergableRule, self).__init__(pr, merged)
         self.name = "Mergable"
         self.description = "Are there merge conflicts?"
 
@@ -111,8 +111,8 @@ class MergeReadyCat(Category):
             w = [0.10, 0.70, 0.20]
 
         self.rules = [
-            (w[0], ThumbsUpRule(pr)),
-            (w[1], LastStateRule(pr)),
-            (w[2], MergableRule(pr)),
+            (w[0], ThumbsUpRule(pr, merged)),
+            (w[1], LastStateRule(pr, merged)),
+            (w[2], MergableRule(pr, merged)),
         ]
 

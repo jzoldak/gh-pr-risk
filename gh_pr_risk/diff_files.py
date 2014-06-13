@@ -8,8 +8,8 @@ class FileTypeRule(Rule):
     Rule for calculating risk associated the type of files
     that have been changed.
     """
-    def __init__(self, pr):
-        super(FileTypeRule, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(FileTypeRule, self).__init__(pr, merged)
         self.name = "File Type"
         self.description = "Which type of files have been changed?"
 
@@ -48,8 +48,8 @@ class FileCountRule(Rule):
     Rule for calculating risk associated the number of files
     that have been changed.
     """
-    def __init__(self, pr):
-        super(FileCountRule, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(FileCountRule, self).__init__(pr, merged)
         self.name = "File Count"
         self.description = "How many files have been changed?"
 
@@ -75,6 +75,6 @@ class DiffFilesCat(Category):
         super(DiffFilesCat, self).__init__(pr, merged)
         self.name = 'Diff Files Cat'
         self.rules = [
-            (0.50, FileTypeRule(pr)),
-            (0.50, FileCountRule(pr)),
+            (0.50, FileTypeRule(pr, merged)),
+            (0.50, FileCountRule(pr, merged)),
         ]

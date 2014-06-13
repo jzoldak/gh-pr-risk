@@ -14,14 +14,21 @@ def get_date_from_unicode(unicode_date):
     date = datetime.datetime.strptime(unicode_date, DATETIME_FORMAT)
     return date
 
+def get_date_to_compare_against(merged, pr):
+    if not merged:
+        return datetime.datetime.utcnow()
+    else:
+
+        merged_date_unicode = pr.pr_itself.get('merged_at', None)
+        return get_date_from_unicode(merged_date_unicode)
 
 class TotalAgeRule(Rule):
     """
     Rule for calculating risk associated the age of
     the most recent commit.
     """
-    def __init__(self, pr):
-        super(TotalAgeRule, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(TotalAgeRule, self).__init__(pr, merged)
         self.name = "Total PR Age"
         self.description = "How long has the pull request been open?"
 
@@ -31,8 +38,8 @@ class TotalAgeRule(Rule):
         """
         created_date_unicode = self.pr.pr_itself.get('created_at', None)
         created_date = get_date_from_unicode(created_date_unicode)
-        now = datetime.datetime.utcnow()
-        age = (now - created_date).days
+        compare_date = get_date_to_compare_against(self.merged, self.pr)
+        age = (compare_date - created_date).days
 
         #return age
         return age
@@ -50,7 +57,7 @@ class TotalAgeRule(Rule):
         elif data > 10:
             risk = 1.0
         else:
-            risk = 0.1 * data
+            risk = round((0.1 * data), 5)
 
 
         return risk
@@ -60,8 +67,8 @@ class LastCommentAgeRule(Rule):
     Rule for calculating risk associated the age of
     the most recent comment.
     """
-    def __init__(self, pr):
-        super(LastCommentAgeRule, self).__init__(pr)
+    def __init__(self, pr, merged):
+        super(LastCommentAgeRule, self).__init__(pr, merged)
         self.name = "Last Comment Age"
         self.description = "How long ago was the last comment made?"
 
@@ -98,7 +105,7 @@ class LastCommentAgeRule(Rule):
         elif data > 10:
             risk = 1.0
         else:
-            risk = 0.1 * data
+            risk = round((0.1 * data), 5)
 
         return risk
 
@@ -108,6 +115,6 @@ class AgeCat(Category):
         super(AgeCat, self).__init__(pr, merged)
         self.name = "Age Cat"
         self.rules = [
-            (0.80, LastCommentAgeRule(pr)),
-            (0.20, TotalAgeRule(pr)),
+            (0.80, LastCommentAgeRule(pr, merged)),
+            (0.20, TotalAgeRule(pr, merged)),
         ]

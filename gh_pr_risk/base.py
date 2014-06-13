@@ -27,8 +27,9 @@ class Rule(object):
     Rule for getting data and assessing the risk of
     a feature.
     """
-    def __init__(self, pr):
+    def __init__(self, pr, merged):
         self.pr = pr
+        self.merged = merged
         self.name = ""
         self.description = ""
 
