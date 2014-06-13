@@ -45,23 +45,28 @@ class TotalAgeRule(Rule):
 
         return risk
 
-class LastCommitAgeRule(Rule):
+class LastCommentAgeRule(Rule):
     """
     Rule for calculating risk associated the age of
     the most recent comment.
     """
     def __init__(self, pr):
-        super(LastCommitAgeRule, self).__init__(pr)
-        self.name = "Last Commit Age"
-        self.description = "How long ago was the most recent commit made?"
+        super(LastCommentAgeRule, self).__init__(pr)
+        self.name = "Last Comment Age"
+        self.description = "How long ago was the last comment made?"
 
+    @property
     def get_data(self):
         """
         Method for obtaining data from github for self.pr.
         """
 
         DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
-        last_commit_date_unicode = self.pr.commits[-1]['commit']['author']['date']
+        if len(self.pr.comments) > 0:
+            last_commit_date_unicode = self.pr.comments[-1]['updated_at']
+        else:
+            # Consider no comments on a PR to be bad and assign a high number
+            return 100
         last_commit_date = datetime.datetime.strptime(last_commit_date_unicode, DATETIME_FORMAT)
         now = datetime.datetime.utcnow()
         age = (now - last_commit_date).days
@@ -76,7 +81,7 @@ class LastCommitAgeRule(Rule):
         the risk associated with this feature.
         """
 
-        data = self.get_data()
+        data = self.get_data
 
         if data in (0, 1):
             risk = 0.0
@@ -93,6 +98,6 @@ class AgeCat(Category):
         super(AgeCat, self).__init__(pr)
         self.name = "Age Cat"
         self.rules = [
-            (0.80, LastCommitAgeRule(pr)),
+            (0.80, LastCommentAgeRule(pr)),
             (0.20, TotalAgeRule(pr)),
         ]
