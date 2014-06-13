@@ -10,6 +10,9 @@
   <h1 class="title">Risky?</h1>
   <h2 class="subtitle">Evaluating the merge risk for {{ org }} since 2014</h2>
   <div class="nav">
+    <a href="{{ url_for("prs") }}">Open Pull Requests</a>
+    <a href="{{ url_for("merged") }}">Merged Pull Requests</a>
+    <a href="{{ url_for("logout") }}">Logout</a>
   </div>
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
