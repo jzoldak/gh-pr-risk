@@ -33,11 +33,11 @@ class ThumbsUpRule(Rule):
     def risk(self):
         num_thumbs = self.get_data()
         if num_thumbs >= 2:
-            return 0
+            return 0.0
         elif num_thumbs == 1:
             return 0.5
         else:
-            return 1
+            return 1.0
 
 
 class LastStateRule(Rule):
@@ -66,13 +66,13 @@ class LastStateRule(Rule):
         data = self.get_data
 
         risk_vals = {
-            'success': 0,
+            'success': 0.0,
             'pending': 0.5,
-            'failure': 1,
-            'error': 1,
+            'failure': 1.0,
+            'error': 1.0,
         }
 
-        return risk_vals.get(data, 1)
+        return risk_vals.get(data, 1.0)
 
 
 class MergableRule(Rule):
@@ -97,7 +97,7 @@ class MergableRule(Rule):
         the risk associated with this feature.
         """
         mergeable = self.get_data()
-        return 0 if mergeable else 1
+        return 0.0 if mergeable else 1.0
 
 
 class MergeReadyCat(Category):
@@ -105,7 +105,7 @@ class MergeReadyCat(Category):
         super(MergeReadyCat, self).__init__(pr)
         self.name = 'Merge Ready Cat'
         self.rules = [
-            (10, ThumbsUpRule(pr)),
-            (25, LastStateRule(pr)),
-            (65, MergableRule(pr)),
+            (0.10, ThumbsUpRule(pr)),
+            (0.25, LastStateRule(pr)),
+            (0.65, MergableRule(pr)),
         ]

@@ -34,13 +34,13 @@ class FileTypeRule(Rule):
         exts = set(self.get_data())
 
         if exts.intersection(high_risk):
-            return 1
+            return 1.0
         elif exts.intersection(med_risk):
             return 0.5
         elif exts.intersection(med_risk):
-            return 0
+            return 0.0
         else:
-            return 1
+            return 1.0
 
 
 class FileCountRule(Rule):
@@ -75,6 +75,6 @@ class DiffFilesCat(Category):
         super(DiffFilesCat, self).__init__(pr)
         self.name = 'Diff Files Cat'
         self.rules = [
-            (50.0, FileTypeRule(pr)),
-            (50.0, FileCountRule(pr)),
+            (0.50, FileTypeRule(pr)),
+            (0.50, FileCountRule(pr)),
         ]
