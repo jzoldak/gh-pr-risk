@@ -106,6 +106,6 @@ class MergeReadyCat(Category):
         self.name = 'Merge Ready Cat'
         self.rules = [
             (0.10, ThumbsUpRule(pr)),
-            (0.25, LastStateRule(pr)),
-            (0.65, MergableRule(pr)),
+            (0.70, LastStateRule(pr)),
+            (0.20, MergableRule(pr)),
         ]
