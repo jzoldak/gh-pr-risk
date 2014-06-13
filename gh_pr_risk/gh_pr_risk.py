@@ -84,13 +84,7 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    if g.user:
-        t = 'Hello! <a href="{{ url_for("prs") }}">See Pull Requests</a> ' \
-            '<a href="{{ url_for("logout") }}">Logout</a>'
-    else:
-        t = 'Hello! <a href="{{ url_for("login") }}">Login</a>'
-
-    return render_template_string(t)
+    return render_template('index.html', user=g.user)
 
 
 @github.access_token_getter

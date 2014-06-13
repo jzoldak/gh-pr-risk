@@ -1,0 +1,6 @@
+{% if g.user %}
+    Hello! <a href="{{ url_for("prs") }}">See Pull Requests</a> 
+    <a href="{{ url_for("logout") }}">Logout</a>
+{% else %}
+    Hello! <a href="{{ url_for("login") }}">Login</a>
+{% endif %}
