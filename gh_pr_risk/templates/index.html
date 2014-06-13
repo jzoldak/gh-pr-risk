@@ -6,8 +6,4 @@
 
 {% block body %}
 
-{% if g.user %}
-{% else %}
-    Hello! <a href="{{ url_for("login") }}">Login</a>
-{% endif %}
 {% endblock %}

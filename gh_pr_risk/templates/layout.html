@@ -4,19 +4,27 @@
 </head>
 
 <body class="risky {% block body_class %}{% endblock %}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}"> -->
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 <div class="page">
-  <h1 class="title">Risky?</h1>
-  <h2 class="subtitle">Evaluating the merge risk for {{ org }} since 2014</h2>
-  <div class="nav">
-    <a href="{{ url_for("prs") }}">Open Pull Requests</a>
-    <a href="{{ url_for("merged") }}">Merged Pull Requests</a>
-    <a href="{{ url_for("logout") }}">Logout</a>
+  <div class="header">
+    <h1 class="title">Risky?</h1>
+    <h2 class="subtitle">Evaluating the merge risk for {{ org }} since 2014</h2>
   </div>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
+  <div class="nav">
+    <ul class="nav-list">
+    {% if g.user %}
+      <li class="nav-item"><a href="{{ url_for("prs") }}">Open Pull Requests</a></li>
+      <li class="nav-item"><a href="{{ url_for("merged") }}">Merged Pull Requests</a></li>
+      <li class="nav-item"><a href="{{ url_for("logout") }}">Logout</a></li>
+    {% else %}
+      <li class="nav-item"><a href="{{ url_for("login") }}">Login</a></li>
+    {% endif %}
+    </ul>
+  </div>
+{% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+{% endfor %}
   <div class="content">
     {% block body %}{% endblock %}
   </div>
