@@ -64,7 +64,6 @@ class PullRequest(object):
         self.pr_itself = self.get_pr_itself()
         self.details = self.set_details()
         self.comments = self.get_comments()
-        self.commits = self.get_commits()
         self.statuses = self.get_statuses()
         self.files = self.get_files()
 
@@ -94,12 +93,6 @@ class PullRequest(object):
             self.repo, self.number)
         files = self.github.get(uri)
         return files
-
-    def get_commits(self):
-        uri = 'repos/{}/pulls/{}/commits'.format(
-            self.repo, self.number)
-        commits = self.github.get(uri)
-        return commits
 
     def get_statuses(self):
         """
