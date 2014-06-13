@@ -7,7 +7,7 @@ from helpers import fixture_stubs
 
 from gh_pr_risk.git_hub import Repo, PullRequest, IssuesList
 
-from gh_pr_risk.age import TotalAgeRule, LastCommitAgeRule
+from gh_pr_risk.age import TotalAgeRule, LastCommentAgeRule
 from nose.tools import assert_equal
 
 @patch('flask.ext.github.GitHub.get', side_effect=fixture_stubs)

@@ -1,6 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+
 {% if g.user %}
-    Hello! <a href="{{ url_for("prs") }}">See Pull Requests</a> 
+    Hello! <a href="{{ url_for("prs") }}">See Pull Requests</a>
     <a href="{{ url_for("logout") }}">Logout</a>
 {% else %}
     Hello! <a href="{{ url_for("login") }}">Login</a>
 {% endif %}
+{% endblock %}
